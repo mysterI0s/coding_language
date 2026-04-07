@@ -2,12 +2,13 @@ lexer grammar alexer;
 VAR     : 'متغير' ;
 IF      : 'إذا' ;
 ELSE    : 'وإال' ;
-WHILE   : 'طالما' ;
-PRINT   : 'اطبع' ;
+WHILE   : 'بينما' ;
+PRINT   : 'اظهر' ;
 TRUE    : 'صح' ;
-FALSE   : 'خطأ' ;
+FALSE   : 'خاطئ' ;
 INT_T   : 'صحيح' ;
 FLOAT_T : 'عشري' ;
+READ    : 'اقرأ' ;
 
 ASSIGN  : '=' ;
 PLUS    : '+' ;
