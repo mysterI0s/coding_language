@@ -2,32 +2,38 @@ grammar alexer;
 program : statement* EOF ;
 statement
     : varDecl
+    | assignStmt
+    | printStmt
+    | ifStmt
+    | whileStmt
     | exprStmt
     ;
-varDecl : VAR ID COLON type ASSIGN expr SEMI ;
+block : LBRACE statement* RBRACE ;
+varDecl    : VAR ID COLON type ASSIGN expr SEMI ;
+assignStmt : ID ASSIGN expr SEMI ;
+printStmt  : PRINT LPAREN expr RPAREN SEMI ;
+ifStmt : IF LPAREN expr RPAREN block (ELSE block)? ;
+whileStmt : WHILE LPAREN expr RPAREN block ;
 exprStmt : expr SEMI ;
 type : INT_T | FLOAT_T ;
 
 expr
-    : LPAREN expr RPAREN
-    | expr (MUL | DIV) expr          
-    | expr (PLUS | MINUS) expr       
-    | NUMBER                         
-    | ID                             
-    ;
+: LPAREN expr RPAREN
+| expr (MUL | DIV) expr
+| expr (PLUS | MINUS) expr
+| expr (GT | LT | '==' | '!=') expr   // عمليات المقارنة
+| NUMBER
+| ID
+;
 
 
 VAR     : 'متغير' ;
 IF      : 'إذا' ;
 ELSE    : 'وإال' ;
-WHILE   : 'بينما' ;
-PRINT   : 'اظهر' ;
-TRUE    : 'صح' ;
-FALSE   : 'خاطئ' ;
+WHILE   : 'طالما' ;
+PRINT   : 'اطبع' ;
 INT_T   : 'صحيح' ;
 FLOAT_T : 'عشري' ;
-READ    : 'اقرأ' ;
-
 ASSIGN  : '=' ;
 PLUS    : '+' ;
 MINUS   : '-' ;
@@ -40,7 +46,7 @@ RPAREN  : ')' ;
 LBRACE  : '{' ;
 RBRACE  : '}' ;
 COLON   : ':' ;
-SEMI    : 'الفاصلة المنقوطة العربية' ;
+SEMI    : '؛' ;
 
 //Numbers
 
@@ -49,6 +55,7 @@ NUMBER  : DIGIT+ ('.' DIGIT+)? ;
 
 //Identifiers
 ID      : [\u0621-\u064A] [\u0621-\u064A\u0660-\u06690-9_]* ;
+
 
 //Whitespace and Comments
 WS      : [ \t\r\n]+ -> skip ;
